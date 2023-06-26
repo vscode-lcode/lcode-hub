@@ -84,6 +84,11 @@ func (dav *WebdavHub) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, err)
 	})
 
+	if r.URL.Path == "/proc/lcode-version" {
+		fmt.Fprint(w, f.Name())
+		return
+	}
+
 	host := try.To1(getHost(dav.HostMatcher, r.Host))
 	session := dav.getSession(host, r.URL.Path)
 	if session == nil {

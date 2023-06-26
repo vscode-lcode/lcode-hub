@@ -57,6 +57,12 @@ var subShellTpl = func() (tpl string) {
 func main() {
 	f.Parse(os.Args[1:])
 
+	if err := hasRunning(args.addr); err == nil {
+		return
+	} else {
+		logger.Println("got version failed.", err)
+	}
+
 	l := try.To1(net.Listen("tcp", args.addr))
 
 	hello := try.To1(template.New("hello").Parse(args.hello))
