@@ -87,7 +87,9 @@ func (dav *WebdavHub) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	host := try.To1(getHost(dav.HostMatcher, r.Host))
 	session := dav.getSession(host, r.URL.Path)
 	if session == nil {
-		err2.Throwf("no webdav server for this host %s", host)
+		w.WriteHeader(403)
+		fmt.Fprintf(w, "no webdav server for this host %s", host)
+		return
 	}
 
 	session.ServeHTTP(w, r)
