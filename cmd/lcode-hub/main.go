@@ -191,6 +191,7 @@ func main() {
 	}
 
 	// webdav server
+	log.Println(f.Name(), "is running on", l.Addr().String())
 	try.To(http.Serve(sl, whub))
 }
 
