@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"log"
 	"net"
 	"net/http"
 	"os"
@@ -108,7 +107,7 @@ func main() {
 		if args.leader {
 			h := sup.NewHandler()
 			if dev {
-				log.Println("start leader", h.String())
+				logger.Println("start leader", h.String())
 			}
 			child := try.To1(ExecTpl(subShell, map[string]string{
 				"server": args.addr,
@@ -121,24 +120,24 @@ func main() {
 				defer c.Close()
 				select {
 				case <-time.After(hub.Timeout):
-					log.Println("child start timeout.")
+					logger.Println("child start timeout.")
 				case stderr := <-h.ch:
 					<-stderr.closed
 					s := whub.getSession(stderr.Host, stderr.Workdir)
 					if s != nil {
 						s.Session.Close()
 					}
-					log.Println("child has been closed")
+					logger.Println("child has been closed")
 				}
 			}()
 
 			return func() {
-				log.Println("leader closed", h.String())
+				logger.Println("leader closed", h.String())
 			}
 		}
 
 		if dev {
-			log.Println("main start")
+			logger.Println("main start")
 		}
 
 		// 清除 PS1, 便于解析 stderr
@@ -165,12 +164,12 @@ func main() {
 		try.To1(c.Run(">&2 echo " + shellescape.Quote(welcome)))
 
 		if dev {
-			log.Println("main started.", s.String())
+			logger.Println("main started.", s.String())
 		}
 
 		return func() {
 			if dev {
-				log.Println("remove main", s.String())
+				logger.Println("remove main", s.String())
 			}
 			whub.RemoveSession(s)
 		}
@@ -191,7 +190,7 @@ func main() {
 	}
 
 	// webdav server
-	log.Println(f.Name(), "is running on", l.Addr().String())
+	logger.Println(f.Name(), "is running on", l.Addr().String())
 	try.To(http.Serve(sl, whub))
 }
 
