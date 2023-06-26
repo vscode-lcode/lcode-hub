@@ -1,0 +1,10 @@
+github.com/alessio/shellescape v1.4.1 h1:V7yhSDDn8LP4lc4jS8pFkt0zCnzVJlG5JXy9BVKJUX0=
+github.com/alessio/shellescape v1.4.1/go.mod h1:PZAiSCk0LJaZkiCSkPv8qIobYglO3FPpyFjDCtHLS30=
+github.com/lainio/err2 v0.9.1 h1:jbqO2TVyQXnruI1w2/dI8NdPjzq+7+ApCFe4uSjLjZ4=
+github.com/lainio/err2 v0.9.1/go.mod h1:glTVV2qNFbBy6WzZFDP2G5BqMiZI58cudp588cEgCuM=
+github.com/vscode-lcode/bash v0.0.14 h1:fX6dalYE0WGKsQNFaWGpAPaelLugApTYY/UJEhSS7U8=
+github.com/vscode-lcode/bash v0.0.14/go.mod h1:Pm/QvDCq5E7x6K7ttp2dtos3AhqJ0FM5DZSGgzTlFLI=
+golang.org/x/exp v0.0.0-20230105202349-8879d0199aa3 h1:fJwx88sMf5RXwDwziL0/Mn9Wqs+efMSo/RYcL+37W9c=
+golang.org/x/exp v0.0.0-20230105202349-8879d0199aa3/go.mod h1:CxIveKay+FTh1D0yPZemJVgC/95VzuuOLq5Qi4xnoYc=
+golang.org/x/net v0.11.0 h1:Gi2tvZIJyBtO9SDr1q9h5hEQCp/4L2RQ+ar0qjx2oNU=
+golang.org/x/net v0.11.0/go.mod h1:2L/ixqYpgIVXmeoSA/4Lu7BzTG4KIyPIryS4IsOd1oQ=
