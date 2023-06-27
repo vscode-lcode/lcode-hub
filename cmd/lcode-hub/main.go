@@ -117,9 +117,8 @@ func main() {
 			err := f.Parse(argsArr)
 			if err != nil {
 				s := output.String()
-				s = strings.ReplaceAll(s, "\n", "\n>2: ")
 				s = shellescape.Quote(s)
-				cmd := fmt.Sprintf(" echo >2: %s", s)
+				cmd := fmt.Sprintf(" >&2 echo %s", s)
 				fmt.Fprintln(c.(*bash.Client).Conn, cmd)
 				err2.Throwf("args parse failed")
 			}
