@@ -2,12 +2,15 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
 	"net"
 	"net/http"
+	"net/netip"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"text/template"
@@ -64,6 +67,16 @@ func main() {
 	}
 
 	l := try.To1(net.Listen("tcp", args.addr))
+	port := func() uint16 {
+		ap := netip.MustParseAddrPort(l.Addr().String())
+		return ap.Port()
+	}()
+
+	var webdavLink *template.Template
+	{
+		webdavLinkTpl := fmt.Sprintf("webdav://{{.host}}.lo.shynome.com:%d{{.path}}", port)
+		webdavLink = try.To1(template.New("webdav").Parse(webdavLinkTpl))
+	}
 
 	hello := try.To1(template.New("hello").Parse(args.hello))
 	subShell := try.To1(template.New("subshell").Parse(subShellTpl))
@@ -89,6 +102,7 @@ func main() {
 			leader bool
 			addr   string
 			raw    string
+			rest   []string
 		}
 		{
 			f := flag.NewFlagSet("lcode@"+Version, flag.ContinueOnError)
@@ -109,6 +123,7 @@ func main() {
 				fmt.Fprintln(c.(*bash.Client).Conn, cmd)
 				err2.Throwf("args parse failed")
 			}
+			args.rest = f.Args()
 		}
 		if args.leader {
 			h := sup.NewHandler()
@@ -146,6 +161,10 @@ func main() {
 			logger.Println("main start")
 		}
 
+		if len(args.rest) == 0 {
+			args.rest = []string{"."}
+		}
+
 		// 清除 PS1, 便于解析 stderr
 		fmt.Fprintln(c.(*bash.Client).Conn, `export PS1=""`)
 
@@ -165,9 +184,48 @@ func main() {
 			try.To(err)
 		}
 
-		welcome := try.To1(ExecTpl(hello, map[string]string{"host": host, "path": pwd}))
+		welcome := try.To1(ExecTpl(webdavLink, map[string]string{"host": host, "path": pwd + "/"}))
 		welcome = ">2: " + welcome
 		try.To1(c.Run(">&2 echo " + shellescape.Quote(welcome)))
+
+		go func() {
+			defer err2.Catch(func(err error) {
+				warn := fmt.Sprintf(">2: err: %s", err.Error())
+				c.Run(">&2 echo " + shellescape.Quote(warn))
+				c.Close()
+			})
+			var hit = 0
+			for _, path := range args.rest {
+				path = filepath.Join(pwd, path)
+				f := webdav.OpenFile(c, path)
+				finfo, err := f.Stat()
+				if errors.Is(err, os.ErrNotExist) {
+					tip := fmt.Sprintf(">2: 404://%s path not exist.", path)
+					try.To1(c.Run(">&2 echo " + shellescape.Quote(tip)))
+					continue
+				}
+				z := try.To1(filepath.Rel(pwd, path))
+				if strings.HasPrefix(z, "..") {
+					tip := fmt.Sprintf(">2: 404://%s don't allow edit parent directory files", path)
+					try.To1(c.Run(">&2 echo " + shellescape.Quote(tip)))
+					continue
+				}
+
+				hit++
+				if finfo.IsDir() {
+					path += "/"
+				}
+				editLink := try.To1(ExecTpl(hello, map[string]string{"host": host, "path": path}))
+				editLink = ">2: " + editLink
+				if editLink == welcome {
+					continue
+				}
+				try.To1(c.Run(">&2 echo " + shellescape.Quote(editLink)))
+			}
+			if hit == 0 {
+				err2.Throwf("no edit target. exitted.")
+			}
+		}()
 
 		if dev {
 			logger.Println("main started.", s.String())
