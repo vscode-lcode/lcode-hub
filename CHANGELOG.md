@@ -1,8 +1,7 @@
 # Changelog
 
-## [3.0.0-0] - 2023-06-26
+## [0.0.5] - 2023-06-27
 
+### Fix
 
-## [2.1.8] - 2023-01-17
-
-v2 go to v[scode-lcode/lcode](https://github.com/vscode-lcode/lcode)
+- 修复了 help 命令错误输出到 stdout, 现已修正: 输出到 stderr
