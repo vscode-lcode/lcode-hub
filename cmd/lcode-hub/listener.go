@@ -41,7 +41,7 @@ func (sw *HubFirstListener) Accept() (net.Conn, error) {
 
 				ctx := context.Background()
 				ctx, cause := context.WithCancelCause(ctx)
-				time.AfterFunc(100*time.Millisecond, func() {
+				time.AfterFunc(1*time.Second, func() {
 					defer cause(context.Canceled)
 					if err := ctx.Err(); err != nil {
 						return
