@@ -1,6 +1,6 @@
 ## Archive
 
-基于 Bash 的 webdav 始终不够可靠, 还是在服务器上安装一个程序好了
+基于 Bash 的 webdav 始终不够可靠, 还是在服务器上安装一个程序好了, 转向 [lcode](https://github.com/vscode-lcode/lcode)
 
 ## 简介
 
