@@ -1,0 +1,11 @@
+[Unit]
+Description=lcode-hub service
+After=network.target
+Documentation=https://github.com/vscode-lcode/lcode-hub
+
+[Service]
+ExecStart=/usr/local/bin/lcode-hub
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
