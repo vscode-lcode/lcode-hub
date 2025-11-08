@@ -6,23 +6,33 @@ RequestExecutionLevel admin
 Section "Install"
   SetOutPath "$INSTDIR"
 
-  ; 拷贝主程序
-  File "lcode-hub.exe"
+  ; -----------------------------
+  ; 先停止并删除旧服务（如果存在）
+  ; -----------------------------
+  ExecWait '"$INSTDIR\nssm.exe" stop lcode-hub'
+  ExecWait '"$INSTDIR\nssm.exe" remove lcode-hub confirm'
 
-  ; 拷贝 nssm.exe
+  ; -----------------------------
+  ; 拷贝程序文件
+  ; -----------------------------
+  File "lcode-hub.exe"
   File "nssm.exe"
 
   ; 创建卸载程序
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
-  ; 注册服务
+  ; -----------------------------
+  ; 注册新服务并开机自启
+  ; -----------------------------
   ExecWait '"$INSTDIR\nssm.exe" install lcode-hub "$INSTDIR\lcode-hub.exe"'
   ExecWait '"$INSTDIR\nssm.exe" set lcode-hub Start SERVICE_AUTO_START'
 
-  ; 异步启动服务，避免卡住安装器
+  ; 异步启动服务，避免安装器卡住
   Exec '"$INSTDIR\nssm.exe" start lcode-hub'
 
-  ; 卸载信息
+  ; -----------------------------
+  ; 写入卸载注册表信息
+  ; -----------------------------
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayName" "lcode-hub"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "Publisher" "shynome"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayVersion" "2.0.1"
