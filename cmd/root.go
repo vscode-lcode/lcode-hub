@@ -34,7 +34,7 @@ var rootCmd = &cobra.Command{
 		port := l.Addr().(*net.TCPAddr).Port
 		hostTpl := fmt.Sprintf("%%s.%s:%d", args.domain, port)
 		hub := hub.New(args.domain, hostTpl)
-		http.Serve(l, hub)
+		try.To(http.Serve(l, hub))
 	},
 }
 
