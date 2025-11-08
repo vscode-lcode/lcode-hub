@@ -1,5 +1,7 @@
+!include "version.nsh"
+
 Name "lcode-hub"
-OutFile "lcode-hub-setup.exe"
+OutFile "lcode-hub-${VERSION}-setup.exe"
 InstallDir "$PROGRAMFILES\lcode-hub"
 RequestExecutionLevel admin
 
@@ -35,7 +37,7 @@ Section "Install"
   ; -----------------------------
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayName" "lcode-hub"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "Publisher" "shynome"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayVersion" "2.0.2"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayVersion" "${VERSION}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "InstallLocation" "$INSTDIR"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "UninstallString" "$INSTDIR\Uninstall.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayIcon" "$INSTDIR\lcode-hub.exe"
