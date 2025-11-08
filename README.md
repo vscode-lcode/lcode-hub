@@ -2,6 +2,6 @@
 
 服务于: https://github.com/vscode-lcode/hub
 
-# todo
+# Todo
 
-- [ ] 支持 windows 安装包
+- [x] 支持 windows 安装包

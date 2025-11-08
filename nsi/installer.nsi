@@ -25,7 +25,7 @@ Section "Install"
   ; 卸载信息
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayName" "lcode-hub"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "Publisher" "shynome"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayVersion" "2.0.0"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayVersion" "2.0.1"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "InstallLocation" "$INSTDIR"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "UninstallString" "$INSTDIR\Uninstall.exe"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\lcode-hub" "DisplayIcon" "$INSTDIR\lcode-hub.exe"
