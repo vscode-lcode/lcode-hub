@@ -58,5 +58,5 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().StringVarP(&args.addr, "listen", "l", "127.0.0.1:4349", "lcode-hub listen addr")
-	rootCmd.Flags().StringVar(&args.domain, "domain", "lcode.localhost", "webdav domain")
+	rootCmd.Flags().StringVar(&args.domain, "domain", "lcode-hub.localhost", "webdav domain")
 }
