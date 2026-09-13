@@ -1,8 +1,10 @@
 # Changelog
 
-## [2.1.0] - 2026-09-13
+## [2.1.0] - unrelease
 
-- 更改: 将域名由 lo.shynome.com 更改为 lcode.localhost 这个专门用于本地网络的域名后缀
+`nodejs` 不支持 `.localhost` 后缀, 会报错: `getaddr ENOTFOUND`
+
+- 更改: 将域名由 lo.shynome.com 更改为 lcode-hub.localhost 这个专门用于本地网络的域名后缀
 
 ## [2.0.3] - 2025-11-09
 
